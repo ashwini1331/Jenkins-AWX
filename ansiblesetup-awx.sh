@@ -33,7 +33,7 @@ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 python3 get-pip.py
 
 # Install compose-module-pip
-pip install docker-compose
+pip3 install docker-compose
 
 # Get AWX and lunch installer
 git clone https://github.com/ansible/awx
