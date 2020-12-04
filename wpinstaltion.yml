@@ -1,0 +1,49 @@
+---
+ - hosts: web1
+   become: true
+## wordpress inatation using ansible code
+# packages intation using looping concept
+   tasks:
+###########
+    - name: All the packges installation
+      apt: 
+        name: [apache2, mysql-server, mysql-client, php, libapache2-mod-php, mcrypt, php-mysql, wget, unzip] 
+        state: present 
+        update_cache: true
+    
+    - name: apache service configuration
+      service: 
+        name: apache2 
+        state: started
+    - name: setting up the mysql user and password
+      shell: "mysqladmin -u root password rootpassword"
+ 
+    - name: downlading the mysql commands
+      get_url:
+        url: https://gitlab.com/roybhaskar9/devops/raw/master/coding/chef/chefwordpress/files/default/mysqlcommands 
+        dest: /tmp/mysqlcommands
+    - name: importing mysqlcommands to root as rootpassword
+      shell: "mysql -uroot -prootpassword < /tmp/mysqlcommands"
+    - name: WP downloading
+      get_url:
+        url:  https://wordpress.org/latest.zip 
+        dest: /tmp/latest.zip
+    - name: unzipping the latest.zip file
+      unarchive:
+        src: /tmp/latest.zip
+        dest: /var/www/html
+        remote_src: yes
+    - name: downloading wp-config file
+      get_url: 
+        url: https://gitlab.com/roybhaskar9/devops/raw/master/coding/chef/chefwordpress/files/default/wp-config-sample.php
+        dest: /var/www/html/wordpress/wp-config.php
+    - name: creating a file
+      file: 
+        path: /var/www/html/wordpress
+        owner: www-data
+        group: www-data
+        mode: 775
+    - name: restarting the apache service
+      service: 
+        name: apache2
+        state: restarted
