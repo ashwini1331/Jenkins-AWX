@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Install the prerequisites
-yum -y install epel-release
-yum install -y yum-utils git gettext ansible nodejs npm gcc-c++ bzip2 python3 python3-libselinux
+sudo yum -y install epel-release
+sudo yum install -y yum-utils git gettext ansible nodejs npm gcc-c++ bzip2 python3 python3-libselinux
 
 # Add Docker repo
-yum-config-manager \
+sudo yum-config-manager \
     --add-repo \
     https://download.docker.com/linux/centos/docker-ce.repo
 
@@ -17,9 +17,9 @@ firewall-cmd --zone=public --add-service=http --permanent
 firewall-cmd --reload
 
 # Install Docker
-yum install -y docker-ce-18.06.1.ce
+sudo yum install -y docker-ce-18.06.1.ce
 # Start and enable the Docker daemon
-systemctl daemon-reload && systemctl restart docker && systemctl enable docker.service
+sudo systemctl daemon-reload && systemctl restart docker && systemctl enable docker.service
 # Export Docker variable needed for AWX deploy to avoid this error: "Error restarting project UnixHTTPConnectionPool..."
 export DOCKER_CLIENT_TIMEOUT=120
 export COMPOSE_HTTP_TIMEOUT=120
