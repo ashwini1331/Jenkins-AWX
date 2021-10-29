@@ -5,9 +5,7 @@ sudo yum -y install epel-release
 sudo yum install -y yum-utils git gettext ansible nodejs npm gcc-c++ bzip2 python3 python3-libselinux
 
 # Add Docker repo
-sudo yum-config-manager \
-    --add-repo \
-    https://download.docker.com/linux/centos/docker-ce.repo
+sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 
 # Needed for Docker DNS resolution
 firewall-cmd --zone=public --add-masquerade --permanent
